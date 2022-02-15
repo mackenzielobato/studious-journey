@@ -1,5 +1,7 @@
-from flask import Flask
+
+from flask import Flask,redirect
 from flask_restful import Resource, Api, reqparse
+from numpy import char
 import pandas as pd
 import ast
 
@@ -10,7 +12,8 @@ office_path = './offices.csv'
 
 @app.route("/")
 def home():
-    return "Hello World!", 200  
+    #return "Hello World!", 200  
+    return redirect("/offices", code=302)
 
 
 class Offices(Resource):
@@ -18,6 +21,24 @@ class Offices(Resource):
         office_data = pd.read_csv(office_path)
         office_data = office_data.to_dict()
         return {'office data': office_data}, 200
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('descriptionID', required=False, type=str)
+        parser.add_argument('regionID', required=True, type=str)
+        parser.add_argument('address1ID', required=True, type=str)
+        parser.add_argument('address2ID', required=False, type=str)
+        parser.add_argument('cityID', required=True, type=str)
+        parser.add_argument('zip_codeID', required=True, type=str)
+        parser.add_argument('state_codeID', required=True, type=str)
+        parser.add_argument('country_codeID', required=True, type=str)
+        parser.add_argument('latituteID', required=False, type=str)
+        parser.add_argument('longitudeID', required=False, type=str)
+
+        args = parser.parse_args()
+
+        return {'loc': args['locationID']}, 200
+        
 
 api.add_resource(Offices, '/offices')
 
