@@ -1,9 +1,11 @@
 
-from flask import Flask,redirect
+from flask import Flask,redirect, render_template
 from flask_restful import Resource, Api, reqparse
 from numpy import char
 import pandas as pd
 import ast
+#import requests
+import json
 
 #initializes flask app
 app = Flask(__name__)
@@ -48,6 +50,11 @@ class Offices(Resource):
 #adds office class to api
 api.add_resource(Offices, '/offices')
 
+# #home page redirects to api entry point
+# @app.route('/')
+# def home():
+#     #return "Hello World!", 200  
+#     return {render_template('index.html',name='home')}
 #runs flask app
 if __name__ == '__main__':
     app.run(debug=True) 
