@@ -12,7 +12,7 @@ app = Flask(__name__)
 api = Api(app)
 
 #bring in investor office data
-office_path = './offices.csv'
+office_path = './office_api/offices.csv'
 
 #home page redirects to api entry point
 @app.route("/")
